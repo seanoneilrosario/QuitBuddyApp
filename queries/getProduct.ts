@@ -1,15 +1,18 @@
-export const GET_PRODUCTS = `
-  query getProducts($cursor: String) {
-    products(first: 250, after: $cursor) {
-      edges {
-        node {
-          id
-          title
-          handle
-          featuredImage {
-            url
-            altText
-          }
+export const GET_PRODUCT_BY_HANDLE = `
+  query getProductByHandle($handle: String!) {
+    product(handle: $handle) {
+      id
+      title
+      description
+      tags
+      featuredImage {
+        url
+        altText
+      }
+      priceRange {
+        minVariantPrice {
+          amount
+          currencyCode
         }
       }
     }
