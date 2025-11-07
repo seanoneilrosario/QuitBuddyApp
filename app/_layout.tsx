@@ -27,13 +27,15 @@ function AuthGate() {
     }
 
     return (
-        <Stack>
-            <Stack.Screen name="(tabs)" options={{ headerShown: false }} />
+        <>
+            <Stack>
+                <Stack.Screen name="(tabs)" options={{ headerShown: false }} />
+                {/* ✅ Public Routes */}
+                <Stack.Screen name="forgot-password" options={{ headerShown: false }} />
+                <Stack.Screen name="customer-register" options={{ headerShown: false }} />
+            </Stack>
+        </>
 
-            {/* ✅ Public Routes */}
-            <Stack.Screen name="forgot-password" options={{ headerShown: false }} />
-            <Stack.Screen name="customer-register" options={{ headerShown: false }} />
-        </Stack>
     );
 }
 

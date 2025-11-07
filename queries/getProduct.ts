@@ -15,6 +15,22 @@ export const GET_PRODUCT_BY_HANDLE = `
           currencyCode
         }
       }
+      variants(first: 50) {
+        edges {
+          node {
+            id
+            title
+            priceV2 {
+              amount
+              currencyCode
+            }
+            image {
+              url
+              altText
+            }
+          }
+        }
+      }
     }
   }
 `;

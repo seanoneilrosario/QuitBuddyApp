@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
-import {View, Text, Image, ScrollView, StyleSheet, Pressable} from "react-native";
-import {fetchCollectionsByHandles} from "@/fetchScripts/fetchCollections";
-import {router} from "expo-router";
+import { View, Text, Image, Pressable } from "react-native";
+import { fetchCollectionsByHandles } from "@/fetchScripts/fetchCollections";
+import { router } from "expo-router";
 
 type Props = {
     cols: string[];
@@ -10,18 +10,20 @@ type Props = {
 
 export default function CollectionsScreen({ cols, title }: Props) {
     const [collections, setCollections] = useState<any[]>([]);
+    const [loading, setLoading] = useState(true);
 
     useEffect(() => {
         const load = async () => {
             const result = await fetchCollectionsByHandles(cols);
             setCollections(result);
+            setLoading(false);
         };
         load();
     }, [cols]);
 
     return (
-        <ScrollView className="p-4">
-            {collections.length === 0 ? (
+        <View className="flex-1">
+            {loading ? (
                 <Text className="text-center mt-10 text-base">Loading collections...</Text>
             ) : (
                 <View>
@@ -33,24 +35,23 @@ export default function CollectionsScreen({ cols, title }: Props) {
                         {collections.map((col) => (
                             <View
                                 key={col.id}
-                                className="mb-[18px] bg-white p-3 rounded-lg shadow flex-[ max-w-[48%] w-[48%] basis-[48%]"
+                                className="mb-[18px] bg-white p-3 rounded-lg shadow flex-[0.5] max-w-[48%] w-[48%] basis-[48%]"
                             >
                                 <Pressable onPress={() => router.push(`../collections/${col.handle}`)}>
                                     {col.image && (
                                         <Image
                                             source={{ uri: col.image.src }}
-                                            className="w-full min-h-[100px] h-fit rounded-lg mb-[10px]"
+                                            className="w-full h-[100px] rounded-lg mb-[10px]"
                                             resizeMode="contain"
                                         />
                                     )}
-                                    <Text className="text-[18px] font-bold text-center color-primary">{col.title}</Text>
+                                    <Text className="uppercase text-[18px] font-bold text-center color-primary">{col.title}</Text>
                                 </Pressable>
                             </View>
                         ))}
                     </View>
                 </View>
             )}
-        </ScrollView>
-
+        </View>
     );
 }

@@ -28,7 +28,7 @@ const Profile = () => {
                 className="absolute w-full h-full object-contain"
             />
 
-            <SafeAreaView style={{ flex: 1 }}>
+            <SafeAreaView style={{ flex: 1 }} edges={["top"]}>
                 <View style={{ flex: 1 }}>
                     <ScrollView
                         className="flex-1 p-5"
