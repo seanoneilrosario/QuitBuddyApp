@@ -27,15 +27,18 @@ function AuthGate() {
     }
 
     return (
-        <>
-            <Stack>
-                <Stack.Screen name="(tabs)" options={{ headerShown: false }} />
-                {/* ✅ Public Routes */}
-                <Stack.Screen name="forgot-password" options={{ headerShown: false }} />
-                <Stack.Screen name="customer-register" options={{ headerShown: false }} />
-            </Stack>
-        </>
+        <Stack screenOptions={{ headerShown: false }}>
+            {/* Main Tab Layout */}
+            <Stack.Screen name="(tabs)" options={{ headerShown: false }} />
 
+            {/* These pages will appear *over* the tabs */}
+            <Stack.Screen name="products/[id]" options={{ presentation: "modal" }} />
+            <Stack.Screen name="collections/[id]" options={{ presentation: "modal" }} />
+
+            {/* Public routes */}
+            <Stack.Screen name="forgot-password" options={{ headerShown: false }} />
+            <Stack.Screen name="customer-register" options={{ headerShown: false }} />
+        </Stack>
     );
 }
 

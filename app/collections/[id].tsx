@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { router, Stack, useLocalSearchParams } from "expo-router";
+import { router, useLocalSearchParams } from "expo-router";
 import { View, Text, ScrollView, Image, ActivityIndicator, TouchableOpacity, Pressable } from "react-native";
 import { shopifyFetch } from "@/shopifyFetch";
 import { GET_COLLECTIONS } from "@/queries/getCollections";
@@ -74,13 +74,16 @@ const CollectionDetails = () => {
         <View className="flex-1">
             <Image source={require("../../assets/images/bg_img.png")} className="absolute w-full h-full object-contain" />
             <SafeAreaView className="flex-1">
-                <Stack.Screen options={{ headerShown: false }} />
-
-                <View className="flex-row items-center p-4">
-                    <TouchableOpacity onPress={() => router.back()} className="p-2 rounded-full bg-gray-100">
-                        <Ionicons name="arrow-back" size={22} color="#2c2f6a" />
+                <View className="relative flex-row items-center p-4 mt-[10px] justify-center">
+                    <Text className="text-2xl font-bold color-primary text-center px-[50px]">
+                        {collection?.title || "Collection"}
+                    </Text>
+                    <TouchableOpacity
+                        onPress={() => router.back()}
+                        className="absolute right-4 top-[10px] p-2 rounded-full bg-gray-100"
+                    >
+                        <Ionicons name="close" size={22} color="#2c2f6a" />
                     </TouchableOpacity>
-                    <Text className="text-2xl font-bold ml-4 color-primary">{collection?.title || "Collection"}</Text>
                 </View>
 
                 {loading && <ActivityIndicator size="large" color="#888" className="mt-10" />}
@@ -100,7 +103,7 @@ const CollectionDetails = () => {
                             <Pressable
                                 key={`${node.id}-${idx}`}
                                 className="bg-white p-3 rounded-xl shadow w-[48%] mb-4"
-                                onPress={() => router.push(`../products/${node.handle}`)}
+                                onPress={() => router.push(`/products/${node.handle}`)}
                             >
                                 <View className="absolute z-10 mt-[10px] ml-[10px]">
                                     {node.metafieldsParsed?.map((mf: any) => (
@@ -108,7 +111,7 @@ const CollectionDetails = () => {
                                             {mf.value.map((v: string, i: number) => (
                                                 <Text
                                                     key={`${mf.key}-${i}`}
-                                                    className="text-[10px] bg-gray-200 color-primary px-2 py-1 rounded-full mr-2 mb-2"
+                                                    className="text-[10px] bg-gray-200 color-primary px-2 py-1 rounded-full mr-2 mb-1"
                                                 >
                                                     {v}
                                                 </Text>

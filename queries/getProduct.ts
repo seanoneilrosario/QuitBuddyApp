@@ -15,7 +15,7 @@ export const GET_PRODUCT_BY_HANDLE = `
           currencyCode
         }
       }
-      variants(first: 50) {
+      variants(first: 10) {
         edges {
           node {
             id

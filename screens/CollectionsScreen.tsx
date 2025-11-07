@@ -37,7 +37,7 @@ export default function CollectionsScreen({ cols, title }: Props) {
                                 key={col.id}
                                 className="mb-[18px] bg-white p-3 rounded-lg shadow flex-[0.5] max-w-[48%] w-[48%] basis-[48%]"
                             >
-                                <Pressable onPress={() => router.push(`../collections/${col.handle}`)}>
+                                <Pressable onPress={() => router.push(`/collections/${col.handle}`)}>
                                     {col.image && (
                                         <Image
                                             source={{ uri: col.image.src }}
