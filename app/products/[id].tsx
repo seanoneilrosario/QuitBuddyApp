@@ -8,6 +8,7 @@ import { GET_PRODUCT_BY_HANDLE } from "@/queries/getProduct";
 import { prefetchImages } from "@/app/utils/prefetchImages";
 import {createCart} from "@/fetchScripts/createCart";
 import {addToCart} from "@/fetchScripts/addToCart";
+import ProductDescriptionAccordion from "@/screens/ProductDescriptionAccordion";
 
 const ProductDetails = () => {
     const { id } = useLocalSearchParams<{ id: string }>();
@@ -107,53 +108,57 @@ const ProductDetails = () => {
                     />
 
                     {/* Product info */}
-                    <Text className="text-2xl font-bold mb-2 color-primary">{product.title}</Text>
-                    <Text className="text-gray-500 mb-4">
+                    <Text className="text-3xl font-bold mb-2 color-primary">{product.title}</Text>
+                    <Text className="text-primary mb-4">
                         ₱{parseFloat(selectedVariant?.priceV2?.amount || product.priceRange.minVariantPrice.amount).toFixed(2)}{" "}
                         {selectedVariant?.priceV2?.currencyCode || product.priceRange.minVariantPrice.currencyCode}
                     </Text>
-                    <Text className="text-gray-700 mb-4">{product.description}</Text>
+                    <ProductDescriptionAccordion htmlDescription={product.descriptionHtml} />
+                    {/*<Text className="text-black mb-4">{product.descriptionHtml}</Text>*/}
 
                     {/* Variant Selector */}
                     <View className="mb-4 flex-col gap-[5px]">
-                        {product.variants.edges.map(({ node }: any) => (
-                            <Pressable
-                                key={node.id}
-                                onPress={() => setSelectedVariant(node)}
-                                className={`px-3 py-1 mr-2 rounded-full border ${
-                                    selectedVariant?.id === node.id ? "border-transparent bg-[#34b9fd]" : "bg-gray-100 border-transparent"
-                                }`}
-                            >
-                                <Text className="text-sm color-inherit">{node.title}</Text>
-                            </Pressable>
+                        {product.variants.edges.filter(({ node }: any) => node.title !== "Default Title")
+                            .map(({ node }: any) => (
+                                <Pressable
+                                    key={node.id}
+                                    onPress={() => setSelectedVariant(node)}
+                                    className={`px-3 py-1 mr-2 rounded-full border ${
+                                        selectedVariant?.id === node.id
+                                            ? "border-transparent bg-[#34b9fd]"
+                                            : "bg-gray-100 border-transparent"
+                                    }`}
+                                >
+                                    <Text className="text-sm color-inherit">{node.title}</Text>
+                                </Pressable>
                         ))}
                     </View>
 
                     {/* Add to Cart Button */}
-                    <View className="flex-row items-center mb-4">
+                    <View className="flex-row items-center mb-6 w-full">
                         <TouchableOpacity
                             onPress={() => setQuantity(prev => (prev > 1 ? prev - 1 : 1))}
-                            className="px-4 py-2 bg-gray-200 rounded-l"
+                            className="px-4 py-2 bg-primary rounded-l"
                         >
-                            <Text className="text-lg font-bold text-center">-</Text>
+                            <Text className="text-lg font-bold text-center color-white">-</Text>
                         </TouchableOpacity>
 
-                        <View className="px-6 py-2 bg-gray-100 border-t border-b">
-                            <Text className="text-lg font-bold text-center">{quantity}</Text>
+                        <View className="px-6 py-2 bg-gray-100 flex-1">
+                            <Text className="text-lg font-bold text-center ">{quantity}</Text>
                         </View>
 
                         <TouchableOpacity
                             onPress={() => setQuantity(prev => prev + 1)}
-                            className="px-4 py-2 bg-gray-200 rounded-r"
+                            className="px-4 py-2 bg-primary rounded-r"
                         >
-                            <Text className="text-lg font-bold text-center">+</Text>
+                            <Text className="text-lg font-bold text-center color-white">+</Text>
                         </TouchableOpacity>
                     </View>
                     <TouchableOpacity
-                        className="bg-primary py-3 rounded-lg mb-4 items-center"
+                        className="bg-primary py-4 rounded-lg mb-10 items-center"
                         onPress={handleAddToCart}
                     >
-                        <Text className="text-white font-bold">Add to Cart</Text>
+                        <Text className="text-white font-bold text-[16px]">Add to Cart</Text>
                     </TouchableOpacity>
                 </ScrollView>
             </SafeAreaView>

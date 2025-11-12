@@ -5,6 +5,7 @@ export const GET_PRODUCT_BY_HANDLE = `
       title
       description
       tags
+      descriptionHtml
       featuredImage {
         url
         altText
